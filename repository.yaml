@@ -1,6 +1,6 @@
 name: "Papra Home Assistant Add-ons"
-url: "https://github.com/X-o-N-o/ha-papra-addon"
-maintainer: "Daniel Eisenschink"
+url: "https://github.com/DEIN-GITHUB-NAME/ha-papra-addon"
+maintainer: "Dein Name <du@example.com>"
 # WICHTIG: Trage oben bei "url" deinen echten GitHub-Benutzernamen ein,
 # bevor du das Repository pushst. Beispiel:
 # url: "https://github.com/mmustermann/ha-papra-addon"

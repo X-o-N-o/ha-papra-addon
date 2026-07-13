@@ -22,4 +22,10 @@ RUN set -eux; \
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
+# WICHTIG: Ein neues ENTRYPOINT setzt ein von der Basis geerbtes CMD auf
+# leer zurueck (Docker-Verhalten). Papras eigener Start-Befehl lautet
+# "node dist/index.js" (siehe apps/papra-server/package.json -> "start").
+# Ohne dieses explizite CMD wuerde run.sh mit "exec $@" ins Leere laufen
+# und der Container wuerde sofort wieder beenden (Start/Stop-Schleife).
 ENTRYPOINT ["/run.sh"]
+CMD ["node", "dist/index.js"]
