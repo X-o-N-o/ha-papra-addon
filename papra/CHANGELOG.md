@@ -1,3 +1,17 @@
+## 26.6.0-11
+
+- Reiner Versions-Bump ohne Code-Aenderung gegenueber 26.6.0-10. Grund: Der
+  HA-Supervisor zeigte bei einem Nutzer "Installierte Version: 26.6.0-8" an
+  und der "Aktualisieren"-Button auf 26.6.0-10 reagierte nicht, obwohl das
+  GitHub-Repository bereits korrekt auf 26.6.0-10 stand und auch als
+  "Neueste Version" erkannt wurde. Ein neuer, garantiert hoeherer
+  Versionsstand soll einen frischen Update-Erkennungsversuch durch den
+  Supervisor anstossen. Falls das Update weiterhin nicht durchfuehrbar ist,
+  liegt die Ursache vermutlich nicht an der Versionsnummer selbst, sondern
+  z.B. an einem haengenden Supervisor-Task oder einem Netzwerk-/Zugriffs-
+  problem beim Herunterladen des Add-on-Archivs von GitHub - siehe
+  Supervisor-Protokoll fuer Details.
+
 ## 26.6.0-10
 
 - Neue Start-Log-Ausgabe: Zeigt jetzt explizit an, ob `ai_base_url` gesetzt
