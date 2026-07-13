@@ -1,3 +1,34 @@
+## 26.6.0-10
+
+- Neue Start-Log-Ausgabe: Zeigt jetzt explizit an, ob `ai_base_url` gesetzt
+  wurde und welche Umgebungsvariable (z.B. `OPENAI_BASE_URL`) damit befuellt
+  wird - oder, falls leer, einen deutlichen Warnhinweis, dass Papra dann den
+  Standard-Endpoint des gewaehlten Adapters nutzt statt eines eigenen Proxys
+  (z.B. Requesty/OpenRouter). Hintergrund: Bei einem Nutzer schlug
+  Auto-Tagging mit "structured output finalization produced no result" fehl,
+  obwohl bei Requesty selbst nie ein Request ankam - starker Hinweis darauf,
+  dass `ai_base_url` leer geblieben war und der Request stattdessen (mit
+  einem fuer diesen Endpoint ungueltigen Requesty-Key) an die echte
+  OpenAI-API ging, wo er vermutlich an der Authentifizierung scheiterte.
+  Dieser Fehlerpfad wird von Papras Fehlerbehandlung derzeit nur als
+  generische "structured output"-Meldung ausgegeben, ohne den eigentlichen
+  HTTP-/Auth-Fehler zu zeigen. Die neue Log-Zeile macht eine fehlende
+  `ai_base_url` beim Start sofort sichtbar, statt dass man es erst aus einem
+  kryptischen Fehler beim Auto-Tagging erschliessen muss.
+
+## 26.6.0-9
+
+- Neue Validierung für `ai_default_model`: Das Add-on prüft jetzt schon beim
+  Start, ob der Wert ein `://` enthält (Format `<adapter>://<model_name>`).
+  Fehlt es, bricht der Start mit einer klaren Fehlermeldung ab, statt dass
+  Papra erst mitten in der Datenbank-Migration mit
+  "Invalid model identifier. Expected format is adapterId://modelName"
+  abstürzt.
+- Hinweis ergänzt: Bei Nutzung von Requesty/OpenRouter als OpenAI-kompatiblem
+  Proxy bleibt der Adapter-Teil vor `://` i.d.R. `openai`, danach folgt die
+  komplette Requesty/OpenRouter-Modell-ID inkl. deren eigenem `provider/`-
+  Präfix, z.B. `openai://openai/gpt-4o-mini` statt nur `openai/gpt-4o-mini`.
+
 ## 26.6.0-8
 
 - Neue Option `ai_auto_tagging_enabled`, gesetzt als `AUTO_TAGGING_ENABLED`.

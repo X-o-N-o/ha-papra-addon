@@ -81,6 +81,24 @@ if [ "$AI_IS_ENABLED" = "true" ]; then
 
   export AI_DEFAULT_MODEL
 
+  # Papra prueft AI_DEFAULT_MODEL strikt gegen "adapterId://modelName".
+  # Haeufigster Fehler: Eine Requesty/OpenRouter-Modell-ID wie
+  # "openai/gpt-4o-mini" wird 1:1 uebernommen, ohne sie hinter einen
+  # Papra-Adapter mit "://" zu haengen. Wir brechen das hier VOR dem Start
+  # ab, statt Papra mitten in der DB-Migration abstuerzen zu lassen.
+  case "$AI_DEFAULT_MODEL" in
+    *://*)
+      : # enthaelt "://" - sieht nach adapterId://modelName aus, ok
+      ;;
+    *)
+      echo "[papra-addon] FEHLER: 'ai_default_model' ist ungueltig: $AI_DEFAULT_MODEL"
+      echo "[papra-addon] Erwartetes Format: <adapter>://<model_name>, z.B. openai://gpt-4o-mini"
+      echo "[papra-addon] Nutzt du Requesty/OpenRouter als Proxy, bleibt der Adapter i.d.R. 'openai',"
+      echo "[papra-addon] die komplette Provider/Modell-ID des Dienstes kommt danach, z.B. openai://openai/gpt-4o-mini"
+      exit 1
+      ;;
+  esac
+
   case "$AI_PROVIDER" in
     openai)     KEY_VAR="OPENAI_API_KEY";     URL_VAR="OPENAI_BASE_URL" ;;
     anthropic)  KEY_VAR="ANTHROPIC_API_KEY";  URL_VAR="ANTHROPIC_BASE_URL" ;;
@@ -108,6 +126,12 @@ if [ "$AI_IS_ENABLED" = "true" ]; then
   fi
   if [ -n "$AI_BASE_URL" ]; then
     export "$URL_VAR"="$AI_BASE_URL"
+    echo "[papra-addon] $URL_VAR gesetzt auf: $AI_BASE_URL"
+  else
+    echo "[papra-addon] Hinweis: 'ai_base_url' ist leer - Papra nutzt den Standard-Endpoint"
+    echo "[papra-addon] des Adapters '$AI_PROVIDER' (z.B. bei openai: https://api.openai.com/v1)."
+    echo "[papra-addon] Nutzt du Requesty/OpenRouter/einen eigenen Proxy, MUSS 'ai_base_url'"
+    echo "[papra-addon] gesetzt sein, sonst geht der Request an den Standard-Endpoint statt an den Proxy!"
   fi
 
   # AUTO_TAGGING_ENABLED ist der server-seitige Master-Schalter fuer die
