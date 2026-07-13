@@ -20,4 +20,12 @@ rm -rf /app/app-data
 ln -s /data/app-data /app/app-data
 
 echo "[papra-addon] Starte Papra auf Port 1221 ..."
+
+if [ "$#" -eq 0 ]; then
+  echo "[papra-addon] FEHLER: Kein Startbefehl (CMD) uebergeben - das sollte nie passieren."
+  echo "[papra-addon] Pruefe, ob im Dockerfile sowohl ENTRYPOINT als auch CMD gesetzt sind."
+  exit 1
+fi
+
+echo "[papra-addon] Befehl: $*"
 exec "$@"
