@@ -1,3 +1,13 @@
+## 26.6.0-4
+
+- Bugfix: `CMD` von `node dist/index.js` auf `pnpm start:with-migrations`
+  korrigiert. Der vorherige Befehl übersprang die Datenbank-Migrationen,
+  wodurch Tabellen wie `users` nie angelegt wurden und Registrierung/Login
+  mit "SQLITE_ERROR: no such table: users" fehlschlugen.
+- Achtung: Bereits angelegte, aber unvollständige `db.sqlite`-Dateien aus
+  vorherigen Startversuchen sollten vor dem nächsten Start gelöscht werden
+  (siehe Anleitung), damit die Migrationen sauber von vorne laufen.
+
 ## 26.6.0-3
 
 - Neue Pflichtoption `app_base_url` ergänzt und als `APP_BASE_URL` an Papra

@@ -23,9 +23,10 @@ COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
 # WICHTIG: Ein neues ENTRYPOINT setzt ein von der Basis geerbtes CMD auf
-# leer zurueck (Docker-Verhalten). Papras eigener Start-Befehl lautet
-# "node dist/index.js" (siehe apps/papra-server/package.json -> "start").
-# Ohne dieses explizite CMD wuerde run.sh mit "exec $@" ins Leere laufen
-# und der Container wuerde sofort wieder beenden (Start/Stop-Schleife).
+# leer zurueck (Docker-Verhalten). Papras eigenes Image startet normalerweise
+# ueber "pnpm start:with-migrations" (fuehrt zuerst die Drizzle-Migrationen
+# aus, die z.B. die Tabelle "users" anlegen, und startet danach den Server).
+# Mit dem vorherigen "node dist/index.js" wurden die Migrationen
+# uebersprungen -> "SQLITE_ERROR: no such table: users" bei Login/Registrierung.
 ENTRYPOINT ["/run.sh"]
-CMD ["node", "dist/index.js"]
+CMD ["pnpm", "start:with-migrations"]
