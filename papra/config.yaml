@@ -1,0 +1,27 @@
+name: "Papra"
+version: "26.6.0-1"
+slug: "papra"
+description: "Selbst gehostetes Dokumenten- und Rechnungsarchiv (Papra) mit OCR"
+url: "https://github.com/papra-hq/papra"
+arch:
+  - amd64
+  - aarch64
+init: false
+startup: application
+boot: auto
+ingress: false
+panel_icon: mdi:file-document-multiple
+webui: "http://[HOST]:[PORT:1221]/"
+ports:
+  1221/tcp: 1221
+ports_description:
+  1221/tcp: "Papra Web-Oberfläche"
+map:
+  - share:rw
+  - addon_config:rw
+options:
+  auth_secret: ""
+  trust_proxy: true
+schema:
+  auth_secret: password
+  trust_proxy: bool
