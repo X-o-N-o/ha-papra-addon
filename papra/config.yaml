@@ -1,5 +1,5 @@
 name: "Papra"
-version: "26.6.0-5"
+version: "26.6.0-4"
 slug: "papra"
 description: "Selbst gehostetes Dokumenten- und Rechnungsarchiv (Papra) mit OCR"
 url: "https://github.com/papra-hq/papra"
@@ -23,27 +23,7 @@ options:
   auth_secret: ""
   app_base_url: ""
   trust_proxy: true
-  document_storage_path: ""
-  ai_is_enabled: false
-  ai_provider: ""
-  ai_api_key: ""
-  ai_base_url: ""
-  ai_default_model: ""
 schema:
   auth_secret: password
   app_base_url: str
   trust_proxy: bool
-  # Optionaler Unterordner in der HA-Freigabe "share" (z.B. deine per SMB/NFS
-  # eingebundene Synology-Freigabe), in dem Papra die Dokumente ablegt.
-  # Leer lassen = Dokumente bleiben lokal im Add-on-Datenordner.
-  document_storage_path: str?
-  # Master-Schalter fuer alle KI-Funktionen (z.B. automatisches Tagging).
-  ai_is_enabled: bool
-  ai_provider: "list(openai|anthropic|mistral|deepseek|openrouter|cocore|ollama|lmstudio|vllm)?"
-  ai_api_key: password?
-  # Nur noetig, wenn du einen abweichenden/eigenen Endpoint ansprichst
-  # (z.B. eigener Ollama-Host, LM Studio, oder ein OpenAI-kompatibler Proxy).
-  ai_base_url: str?
-  # Format: <adapter>://<model_name>, z.B. openai://gpt-4o-mini,
-  # anthropic://claude-haiku-4-5, ollama://qwen3:8b
-  ai_default_model: str?
